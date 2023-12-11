@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send and Receive OTPs</title>
+</head>
+<body>
+    <h1>Generate and Receive OTPs</h1>
+    <button id="generate-button">Generate OTP</button>
+    <button id="receive-button">Receive OTP</button>
+    <h2>Received OTPs:</h2>
+    <ul>
+        {% for otp in received_otps %}
+            <li>{{ otp }}</li>
+        {% endfor %}
+    </ul>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#generate-button").click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "/generate_otp",
+                    success: function(response) {
+                        alert("Generated OTP: " + response.otp);
+                    },
+                    error: function() {
+                        alert("Failed to generate OTP.");
+                    }
+                });
+            });
+
+            $("#receive-button").click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "/receive_otp",
+                    data: { otp: "1234" },  // Replace with the received OTP
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function() {
+                        alert("Failed to receive OTP.");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang= "en">
+<head>
+    <title>Send OTP</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function generateAndDisplayOTP() {
+            $.ajax({
+                type: "POST",
+                url: "/generate_otp",
+                success: function(response) {
+                    document.getElementById('otp-display').innerHTML = "Your OTP is: " + response.otp;
+                },
+                error: function() {
+                    alert("Failed to generate OTP.");
+                }
+            });
+        }
+
+        function sendOTPByEmail() {
+            var email = document.getElementById('email').value;
+            if (email) {
+                $.ajax({
+                    type: "POST",
+                    url: "/send_email",
+                    data: { email: email },
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function() {
+                        alert("Failed to send OTP via email.");
+                    }
+                });
+            } else {
+                alert("Please enter an email address.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1 id="otp-display"></h1>
+    <button onclick="generateAndDisplayOTP()">Generate OTP</button>
+    <br>
+    <input type="email" id="email" placeholder="Enter receiver's Email">
+    <button onclick="sendOTPByEmail()">Send OTP via Email</button>
+</body>
+</html>
